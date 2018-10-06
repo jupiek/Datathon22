@@ -38,12 +38,20 @@ ui = dashboardPage(
               p("  - What variables are strong predictors of incoming drought?"),
               p("  - Specifically, which vairables exhibit significant change before and after a period of drought?"),
               br(),
-              p("We began by examining how variables changed during drought periods."),
-              br(),
               p("By: Joshua Huang, Julie Kim, Clay Yoo, Sophia Yoo")
               ),
       
-      # First tab content
+      tabItem(tabName = "process",
+              h2("Process"),
+              br(),
+              p("We identified the annual top 3 states, based on number of days of drought
+                 per year. The most notable observation was that Texas had the highest number of 
+                 days of drought from 2011 to 2015, but did not even place in the top 3 in 2016."),
+              p("Following this insight, we decided to investigate Texas further in depth to consider
+                 what changed from 2015 to 2016 to produce these results."),
+              p("We found that ... ")
+      ),
+      
       tabItem(tabName = "chemical",
               h2("Contaminant Levels by County"),
               p("An overview of contamination levels by county."),
@@ -51,7 +59,7 @@ ui = dashboardPage(
               
               fluidPage(
                 inputPanel(
-                  selectInput("variable", label = "County:",
+                  selectInput("county1", label = "County:",
                                choices = sort(unique(chemicals$county)))
                 ),
                 plotlyOutput("chem.by.county")
@@ -78,7 +86,7 @@ server = function(input, output, session) {
   # Graph 1
   output$chem.by.county = renderPlotly({
 
-      cty.dat = chemicals[which(chemicals$county == input$variable),]
+      cty.dat = chemicals[which(chemicals$county == input$county1),]
       plot = ggplot(cty.dat, aes(x = year, y = value, group = 1)) + 
         geom_line() +
         facet_grid(~ chemical_species)
