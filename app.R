@@ -17,6 +17,7 @@ ui = dashboardPage(
   dashboardSidebar(
     sidebarMenu(
       menuItem("Introduction", tabName = "introduction", icon = icon("dashboard")),
+      menuItem("Process", tabName = "process", icon = icon("comment-alt")),
       menuItem("Contaminant Levels by County", tabName = "chemical", icon = icon("th"))
     )
   ),
