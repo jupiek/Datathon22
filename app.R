@@ -24,19 +24,16 @@ ui = dashboardPage(
       tabItem(tabName = "introduction",
               h2("Introduction"),
               br(),
-              p("Music streaming has become the new way of listening to music 
-                and Spotify has become one of the most successful platforms 
-                for such a service. With so many people on a single platform 
-                comes the possibility to analyze listening behaviors to study
-                the spread of music."),
+              p("When droughts occur, all aspects of communities are affected, from economic
+                and environmental to social repercussions. We leveraged the economic, water usage,
+                earnings, droughts, and chemical datasets to explore ways communities can mitigate 
+                effects from drought. We also tried to identify key variables that would predict drought
+                and suggest possible preventative meausres for counties."),
               br(),
               p("In this project, we attempt to answer some questions such 
                 as:"),
-              p("  - How do artists do in a particular country as compared
-                to that continent?"),
-              br(),
-              p("Dataset from: ", 
-                a("https://www.kaggle.com/edumucelli/spotifys-worldwide-daily-song-ranking")),
+              p("  - How can counties minimize the loss of income due to droughts?"),
+              p("  - What variables are strong predictors of incoming drought?"),
               br(),
               p("By: Joshua Huang, Julie Kim, Clay Yoo, Sophia Yoo")
               ),
