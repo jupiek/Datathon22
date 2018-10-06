@@ -37,11 +37,18 @@ Questions in Mind
 Data Loading
 ---
 ```{r}
+#Load for APP
 chemicals = read.csv("chemicals.csv", stringsAsFactors = FALSE)
+save.image("draft.RData")
+```
+
+```{r}
 droughts = read.csv("droughts.csv", stringsAsFactors = FALSE)
 occ = read.csv("industry_occupation.csv", stringsAsFactors = FALSE)
 edu = read.csv("education_attainment.csv", stringsAsFactors = FALSE)
 earnings = read.csv("earnings.csv", stringsAsFactors = FALSE)
+water = read.csv("water_usage.csv", stringsAsFactors = FALSE)
+droughts_fin = read.csv("drought_clean_final.csv", stringsAsFactors = FALSE)
 
 head(chemicals)
 head(droughts)
@@ -72,11 +79,6 @@ chem.by.county = function(cty) {
 edu2 = edu[which(edu$year == "2012-2016"),]
 earnings2 = earnings[which(earnings$year > 2011),]
 
-```
-
-```{r}
-save.image("draft.RData")
-#county.fips
 ```
 
 surface water, ground water
