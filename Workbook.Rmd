@@ -1,0 +1,52 @@
+---
+title: "Workbook"
+author: "Julie Kim"
+date: "10/6/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, warning = FALSE, message = FALSE}
+library(tidyverse)
+library(plyr)
+library(shiny)
+library(rsconnect)
+library(ggmap)
+library(maps)
+library(sp)
+library(plotly)
+library(scales)
+library(gridExtra)
+library(shinydashboard)
+```
+
+```{r}
+chemicals = read.csv("chemicals.csv")
+head(chemicals)
+
+unique(chemicals$contaminant_level)
+which(chemicals$contaminant_level == "Non Detect")
+summary(chemicals$value)
+```
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
