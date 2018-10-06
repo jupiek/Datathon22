@@ -14,6 +14,7 @@ library(tidyverse)
 #library(plyr)
 library(shiny)
 library(rsconnect)
+library(ggplot2)
 #library(ggmap)
 #library(maps)
 #library(mapdata)
@@ -60,9 +61,9 @@ droughts = droughts[-which(droughts$none==100),]
 occ = occ[which(!is.na(occ$total_employed)),]
 
 #Graph the contamination levels across time for an indicated county 
-chem.by.county = function(x) {
-  x.dat = chemicals[which(chemicals$county == x),]
-  ggplot(x.dat, aes(x = year, y = value)) + 
+chem.by.county = function(cty) {
+  cty.dat = chemicals[which(chemicals$county == cty),]
+  ggplot(cty.dat, aes(x = year, y = value, group = 1)) + 
     geom_line() +
     facet_grid(~ chemical_species)
 }
@@ -70,8 +71,6 @@ chem.by.county = function(x) {
 #Remove rows of `edu` and `earnings` that are outside of the timespan of 2012-2016
 edu2 = edu[which(edu$year == "2012-2016"),]
 earnings2 = earnings[which(earnings$year > 2011),]
-
-earnings2
 
 ```
 

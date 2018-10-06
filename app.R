@@ -1,12 +1,14 @@
+
 library(tidyverse)
 library(shinydashboard)
 library(plotly)
 library(shiny)
 library(plotly)
+library(ggplot2)
 library(rsconnect)
 
-load("draft.RData")
 
+load("draft.RData")
 ui = dashboardPage(
   skin = "blue",
   
@@ -25,7 +27,7 @@ ui = dashboardPage(
               h2("Introduction"),
               br(),
               p("When droughts occur, all aspects of communities are affected, from economic
-                and environmental to social repercussions. We leveraged the economic, water usage,
+                and environmental to social. We leveraged the economic, water usage,
                 earnings, droughts, and chemical datasets to explore ways communities can mitigate 
                 effects from drought. We also tried to identify key variables that would predict drought
                 and suggest possible preventative meausres for counties."),
@@ -34,6 +36,9 @@ ui = dashboardPage(
                 as:"),
               p("  - How can counties minimize the loss of income due to droughts?"),
               p("  - What variables are strong predictors of incoming drought?"),
+              p("  - Specifically, which vairables exhibit significant change before and after a period of drought?"),
+              br(),
+              p("We began by examining how variables changed during drought periods."),
               br(),
               p("By: Joshua Huang, Julie Kim, Clay Yoo, Sophia Yoo")
               ),
@@ -51,6 +56,16 @@ ui = dashboardPage(
                 ),
                 plotlyOutput("chem.by.county")
               )
+              ),
+      
+      tabItem(tabName = "conclusion",
+              h2("Conclusion"),
+              br(),
+              p("We found that..."),
+              br(),
+              p("We would recommend further investigation of ... as we've identified an association, but it does not clearly imply causation."),
+              br(),
+              p("By: Joshua Huang, Julie Kim, Clay Yoo, Sophia Yoo")
               )
               )
       )
@@ -62,9 +77,12 @@ server = function(input, output, session) {
   
   # Graph 1
   output$chem.by.county = renderPlotly({
-    
-    rplot = chem.by.county(input$variable)
-    ggplotly(rplot)
+
+      cty.dat = chemicals[which(chemicals$county == input$variable),]
+      plot = ggplot(cty.dat, aes(x = year, y = value, group = 1)) + 
+        geom_line() +
+        facet_grid(~ chemical_species)
+      ggplotly(plot)
     
   })
 }
