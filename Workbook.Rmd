@@ -11,42 +11,85 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r, warning = FALSE, message = FALSE}
 library(tidyverse)
-library(plyr)
+#library(plyr)
 library(shiny)
 library(rsconnect)
-library(ggmap)
-library(maps)
-library(sp)
+#library(ggmap)
+#library(maps)
+#library(mapdata)
+#library(sp)
 library(plotly)
-library(scales)
-library(gridExtra)
+#library(scales)
+#library(lubridate)
+#library(gridExtra)
 library(shinydashboard)
 ```
 
+Questions in Mind
+---
++ How do factors change after a drought?
++ What percentage of the population is affected by drought? 
++ Is there a relationship between duration of drought, severity of drought, and contamination levels 
++ Are there certain variables in a population that predict better drought-recovery preparedness? 
++ Example diagrams include: times series plots of water usage, chemical levels etc before, during & after a drought, models to predict how long it takes for... 
+
+Data Loading
+---
 ```{r}
-chemicals = read.csv("chemicals.csv")
+chemicals = read.csv("chemicals.csv", stringsAsFactors = FALSE)
+droughts = read.csv("droughts.csv", stringsAsFactors = FALSE)
+occ = read.csv("industry_occupation.csv", stringsAsFactors = FALSE)
+edu = read.csv("education_attainment.csv", stringsAsFactors = FALSE)
+earnings = read.csv("earnings.csv", stringsAsFactors = FALSE)
+
 head(chemicals)
-
-unique(chemicals$contaminant_level)
-which(chemicals$contaminant_level == "Non Detect")
-summary(chemicals$value)
-```
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+head(droughts)
+head(occ)
+head(edu)
+head(earnings)
 ```
 
-## Including Plots
+Data Manipulation on Droughts
+---
++ Created a function to determine the length of droughts by measuring droughts spanning consecutive measurement periods of 6 days
+```{r}
+#Remove all data in `droughts` without drought
+droughts = droughts[-which(droughts$none==100),]
 
-You can also embed plots, for example:
+#Remove all data in `occ` without population data
+occ = occ[which(!is.na(occ$total_employed)),]
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+#Graph the contamination levels across time for an indicated county 
+chem.by.county = function(x) {
+  x.dat = chemicals[which(chemicals$county == x),]
+  ggplot(x.dat, aes(x = year, y = value)) + 
+    geom_line() +
+    facet_grid(~ chemical_species)
+}
+
+#Remove rows of `edu` and `earnings` that are outside of the timespan of 2012-2016
+edu2 = edu[which(edu$year == "2012-2016"),]
+earnings2 = earnings[which(earnings$year > 2011),]
+
+earnings2
+
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+save.image("draft.RData")
+#county.fips
+```
+
+surface water, ground water
+
+how to minimize the loss in income of industries by changing variables that lead to drought 
+self-supplied, import or not
+
+rsconnect::deployApp()
+
+rsconnect::setAccountInfo(name='jupiek',
+			  token='8531C52D0ADDBE4AD630C0B828E6B5B4',
+			  secret='olTDfyvkdAHjzSgLw+DBk2xUJXHtUG27eyarpoTR')
+			  
+Necessary data to run app:
+chemicals
